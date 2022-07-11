@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/catagory.dart';
+import 'package:flutter_application_1/screens/category/catagory.dart';
 import 'package:flutter_application_1/screens/transcation.dart';
 
 class ScreenHome extends StatelessWidget {
@@ -30,7 +30,7 @@ class ScreenHome extends StatelessWidget {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'Transcation'),
+                      icon: Icon(Icons.home), label: 'Transacation'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.category), label: 'Category'),
                   
@@ -48,7 +48,8 @@ class ScreenHome extends StatelessWidget {
           }else{
               print("add category");
           }
-         showDialog(context:(context),
+         showDialog(
+          context:(context),
           builder: (context){
            return AlertDialog(
             actions: [
