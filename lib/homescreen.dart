@@ -4,6 +4,7 @@ import 'package:flutter_application_1/screens/transcation.dart';
 
 class ScreenHome extends StatelessWidget {
   ValueNotifier<int> bottomNavigation = ValueNotifier(0);
+  final textcontroller= TextEditingController();
 
   ScreenHome({Key? key}) : super(key: key);
 
@@ -12,6 +13,7 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: const Text('MONEY MANAGER'),
@@ -40,6 +42,40 @@ class ScreenHome extends StatelessWidget {
             return _pages[index];
           } ,
           valueListenable:bottomNavigation )),
+         floatingActionButton:FloatingActionButton(onPressed: (){
+          if(bottomNavigation==0){
+            print("add transaction");
+          }else{
+              print("add category");
+          }
+         showDialog(context:(context),
+          builder: (context){
+           return AlertDialog(
+            actions: [
+            // title:Text('Add Category'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller:textcontroller ,
+                decoration: InputDecoration(
+                  hintText: 'Category Name',
+                  border: OutlineInputBorder()
+                ),
+              ),
+              
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:ElevatedButton(onPressed: (){}, child:  Text('Add'))
+              
+            )
+            
+            ],
+            title: Text('Add Category'),
+            );
+          });
+         },
+         child: Center(child: Icon(Icons.add),),)
     );
   }
 }
