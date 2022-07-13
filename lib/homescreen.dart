@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/category/catagory.dart';
+import 'package:flutter_application_1/screens/category/category_show_popup.dart';
 import 'package:flutter_application_1/screens/transcation.dart';
+
+import 'db/category_db.dart';
+import 'models/category_models.dart';
 
 class ScreenHome extends StatelessWidget {
   ValueNotifier<int> bottomNavigation = ValueNotifier(0);
@@ -43,38 +47,22 @@ class ScreenHome extends StatelessWidget {
           } ,
           valueListenable:bottomNavigation )),
          floatingActionButton:FloatingActionButton(onPressed: (){
-          if(bottomNavigation==0){
+          if(bottomNavigation.value==0){
             print("add transaction");
           }else{
+            ShowCategoryAddPopUp(context);
               print("add category");
+               final _value= CategoryModels(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: 'travel', 
+                type: CategoryType.expense
+                );
+               CategoryDb().insertCategory(_value);
+               
+              
+              //  print(_value);
           }
-         showDialog(
-          context:(context),
-          builder: (context){
-           return AlertDialog(
-            actions: [
-            // title:Text('Add Category'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller:textcontroller ,
-                decoration: InputDecoration(
-                  hintText: 'Category Name',
-                  border: OutlineInputBorder()
-                ),
-              ),
-              
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:ElevatedButton(onPressed: (){}, child:  Text('Add'))
-              
-            )
-            
-            ],
-            title: Text('Add Category'),
-            );
-          });
+       
          },
          child: Center(child: Icon(Icons.add),),)
     );

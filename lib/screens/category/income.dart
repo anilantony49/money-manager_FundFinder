@@ -7,7 +7,7 @@ class IncomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemBuilder: (context,index){
-        return ListTile(
+        return const ListTile(
           title:Text('income category'),
         trailing: Icon(Icons.delete,color: Colors.red,),
         );
@@ -15,6 +15,7 @@ class IncomePage extends StatelessWidget {
       separatorBuilder: (context,index){
         return SizedBox();
       }, 
-      itemCount: 10);
+      itemCount: 10
+    );
   }
 }

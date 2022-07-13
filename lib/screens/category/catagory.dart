@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/db/category_db.dart';
+import 'package:flutter_application_1/models/category_models.dart';
 import 'package:flutter_application_1/screens/category/expanse.dart';
 import 'package:flutter_application_1/screens/category/income.dart';
 
+enum Category {income,expense}
 class ScreenCatagory extends StatefulWidget {
 
    ScreenCatagory({ Key? key }) : super(key: key);
+   
 
   @override
   State<ScreenCatagory> createState() => _ScreenCatagoryState();
+  
 }
 
 class _ScreenCatagoryState extends State<ScreenCatagory> with SingleTickerProviderStateMixin{
+ 
+ Category?_category=Category.income;
  late TabController _tabController;
   ValueNotifier<int> bottomNavigation = ValueNotifier(0);
-  final textcontroller= TextEditingController();
+ 
+  // String income='Income';
+
+ 
 
  @override
   void initState() {
     _tabController=TabController(length: 2, vsync: this);
+    CategoryDb().getCategories().then((value){
+      print('Category value');
+      print( value.toString());
+    });
     super.initState();
   }
 
@@ -36,11 +50,11 @@ class _ScreenCatagoryState extends State<ScreenCatagory> with SingleTickerProvid
             labelColor: Colors.black,
            ),
            Expanded(
-             child: TabBarView(children: [
+             child: TabBarView(children: const [
              IncomePage(),ExpansePage()
              ],
              controller: _tabController,
-             physics: ScrollPhysics(),
+             physics: const ScrollPhysics(),
              ),
            ),
         
@@ -48,40 +62,16 @@ class _ScreenCatagoryState extends State<ScreenCatagory> with SingleTickerProvid
          ],
        ),
           floatingActionButton:FloatingActionButton(onPressed: (){
-          if(bottomNavigation==0){
+          if(bottomNavigation.value==0){
             print("add transaction");
           }else{
               print("add category");
+             
           }
-         showDialog(
-          context:(context),
-          builder: (context){
-           return AlertDialog(
-            actions: [
-            // title:Text('Add Category'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller:textcontroller ,
-                decoration: InputDecoration(
-                  hintText: 'Category Name',
-                  border: OutlineInputBorder()
-                ),
-              ),
-              
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:ElevatedButton(onPressed: (){}, child:  Text('Add'))
-              
-            )
-            
-            ],
-            title: Text('Add Category'),
-            );
-          });
+        
          },
-         child: Center(child: Icon(Icons.add),),)
+         child: Center(child: Icon(Icons.add),),
+         )
      );
     
   }
