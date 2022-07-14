@@ -17,21 +17,18 @@ class ScreenCatagory extends StatefulWidget {
 
 class _ScreenCatagoryState extends State<ScreenCatagory> with SingleTickerProviderStateMixin{
  
- Category?_category=Category.income;
+
  late TabController _tabController;
   ValueNotifier<int> bottomNavigation = ValueNotifier(0);
  
-  // String income='Income';
+  
 
  
 
  @override
   void initState() {
     _tabController=TabController(length: 2, vsync: this);
-    CategoryDb().getCategories().then((value){
-      print('Category value');
-      print( value.toString());
-    });
+    CategoryDb().refreshUI();
     super.initState();
   }
 

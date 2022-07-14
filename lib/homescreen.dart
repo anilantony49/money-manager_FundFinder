@@ -34,7 +34,7 @@ class ScreenHome extends StatelessWidget {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'Transacation'),
+                      icon: Icon(Icons.home), label: 'Transaction'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.category), label: 'Category'),
                   

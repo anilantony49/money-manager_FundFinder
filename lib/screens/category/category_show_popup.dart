@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/db/category_db.dart';
 import 'package:flutter_application_1/models/category_models.dart';
+import 'package:flutter_application_1/screens/category/income.dart';
 
 final textcontroller = TextEditingController();
 ValueNotifier<CategoryType> SelectedCategoryType =
@@ -7,7 +9,7 @@ ValueNotifier<CategoryType> SelectedCategoryType =
 void ShowCategoryAddPopUp(context) {
   showDialog(
       context: (context),
-      builder: (context) {
+      builder: (ctx) {
         return SimpleDialog(
           title: const Text('Add Category'),
           children: [
@@ -31,9 +33,23 @@ void ShowCategoryAddPopUp(context) {
                 padding: const EdgeInsets.all(8.0),
                 child:
                 ElevatedButton(onPressed: () {
+             final _name=textcontroller.text;
+             if(_name.isEmpty){
+              return;
+             }
+            final _type=SelectedCategoryType.value;
+          final _category= CategoryModels(
+              id: DateTime.now().millisecondsSinceEpoch.toString(), 
+              name: _name, 
+              type: _type
+              );
+              CategoryDb.singleton. insertCategory(_category);
+              print(_category.toString());
+              Navigator.of(ctx).pop();
+                 
 
-                  
-                }, child: const Text('Add'))),
+                   
+          }, child: const Text('Add'))),
           ],
         );
       });
