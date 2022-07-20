@@ -4,34 +4,34 @@ import '../../db/category_db.dart';
 import '../../models/category_models.dart';
 
 class IncomePage extends StatelessWidget {
-  const IncomePage({ Key? key }) : super(key: key);
+  const IncomePage({Key? key}) : super(key: key);
 
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable:CategoryDb().incomeCatogoryNotifier, 
-      builder:(BuildContext context, List<CategoryModels> newValue, Widget?_){
-      
-      return ListView.separated(     
-      itemBuilder: (context, index) {
-        final title= newValue[index];
-        return Card(
-          child: ListTile(
-            title: Text(title.name),
-            trailing: IconButton(
-                onPressed: () {}, 
-                icon: const Icon(Icons.delete), 
+        valueListenable: CategoryDb().incomeCatogoryNotifier,
+        builder:
+            (BuildContext context, List<CategoryModels> newValue, Widget? _) {
+          return ListView.separated(
+            itemBuilder: (context, index) {
+              final title = newValue[index];
+              return Card(
+                child: ListTile(
+                  title: Text(title.name),
+                  trailing: IconButton(
+                    onPressed: () {
+                      CategoryDb().deleteCategory(title.id);
+                    },
+                    icon: const Icon(Icons.delete),
+                  ),
                 ),
-          ),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return SizedBox();
-      },
-      itemCount: newValue.length,
-    );
-    
-      }
-    );
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox();
+            },
+            itemCount: newValue.length,
+          );
+        });
   }
 }

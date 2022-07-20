@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/db/category_db.dart';
 import 'package:flutter_application_1/models/category_models.dart';
-import 'package:flutter_application_1/screens/category/income.dart';
 
 final textcontroller = TextEditingController();
 ValueNotifier<CategoryType> SelectedCategoryType =
     ValueNotifier(CategoryType.income);
-void ShowCategoryAddPopUp(context) {
+Future<void> ShowCategoryAddPopUp(context) async {
   showDialog(
       context: (context),
       builder: (ctx) {
@@ -22,34 +21,31 @@ void ShowCategoryAddPopUp(context) {
               ),
             ),
             Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Row(
-                  children: [
+                  children: const [
                     RadioButton(title: 'Income', type: CategoryType.income),
                     RadioButton(title: 'Expanse', type: CategoryType.expense)
                   ],
                 )),
             Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:
-                ElevatedButton(onPressed: () {
-             final _name=textcontroller.text;
-             if(_name.isEmpty){
-              return;
-             }
-            final _type=SelectedCategoryType.value;
-          final _category= CategoryModels(
-              id: DateTime.now().millisecondsSinceEpoch.toString(), 
-              name: _name, 
-              type: _type
-              );
-              CategoryDb.singleton. insertCategory(_category);
-              print(_category.toString());
-              Navigator.of(ctx).pop();
-                 
-
-                   
-          }, child: const Text('Add'))),
+                child: ElevatedButton(
+                    onPressed: () {
+                      final _name = textcontroller.text;
+                      if (_name.isEmpty) {
+                        return;
+                      }
+                      final _type = SelectedCategoryType.value;
+                      final _category = CategoryModels(
+                          id: DateTime.now().millisecondsSinceEpoch.toString(),
+                          name: _name,
+                          type: _type);
+                      CategoryDb.singleton.insertCategory(_category);
+                      print(_category.toString());
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text('Add'))),
           ],
         );
       });
@@ -59,7 +55,7 @@ class RadioButton extends StatelessWidget {
   final String title;
   final CategoryType type;
 
-  RadioButton({
+  const RadioButton({
     Key? key,
     required this.title,
     required this.type,
