@@ -14,7 +14,7 @@ class ScreenHome extends StatelessWidget {
   ScreenHome({Key? key}) : super(key: key);
 
   final _pages = [
-    const ScreenTransaction(),
+     ScreenTransaction(),
     const ScreenCatagory(),
   ];
 

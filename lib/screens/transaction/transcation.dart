@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/db/transaction_db.dart';
 import 'package:flutter_application_1/models/category_models.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/transaction_models.dart';
@@ -19,24 +20,44 @@ class ScreenTransaction extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               itemBuilder: (context, index) {
                 final _value = newValue[index];
-                return Card(
-                    elevation: 0,
-                    child: ListTile(
-                      title: Text(
-                        'Rs.${_value.amount}',
-                      ),
-                      subtitle: Text(_value.purpose),
-                      leading: CircleAvatar(
-                        child: Text(
-                          parsedDate(_value.date),
-                          textAlign: TextAlign.center,
+
+                return Slidable(
+                  key: Key(_value.id),
+                  direction: Axis.horizontal,
+                  startActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      dismissible: DismissiblePane(onDismissed: () {}),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) {
+                            TransactionDb.singleton
+                                .deletetransaction(_value.id);
+                          },
+                          backgroundColor: const Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
                         ),
-                        backgroundColor: _value.type == CategoryType.expense
-                            ? Colors.red
-                            : Colors.green,
-                        radius: 50,
-                      ),
-                    ));
+                      ]),
+                  child: Card(
+                      elevation: 0,
+                      child: ListTile(
+                        title: Text(
+                          'Rs.${_value.amount}',
+                        ),
+                        subtitle: Text(_value.purpose),
+                        leading: CircleAvatar(
+                          child: Text(
+                            parsedDate(_value.date),
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: _value.type == CategoryType.expense
+                              ? Colors.red
+                              : Colors.green,
+                          radius: 50,
+                        ),
+                      )),
+                );
               },
               separatorBuilder: (context, index) {
                 return const Divider();
