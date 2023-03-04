@@ -37,12 +37,12 @@ Future<void> ShowCategoryAddPopUp(context) async {
                         return;
                       }
                       final _type = SelectedCategoryType.value;
-                      final _category = CategoryModels(
+                      final category = CategoryModels(
                           id: DateTime.now().millisecondsSinceEpoch.toString(),
                           name: _name,
                           type: _type);
-                      CategoryDb.singleton.insertCategory(_category);
-                      print(_category.toString());
+                      CategoryDb.singleton.insertCategory(category);
+                      print(category.toString());
                       Navigator.of(ctx).pop();
                     },
                     child: const Text('Add'))),

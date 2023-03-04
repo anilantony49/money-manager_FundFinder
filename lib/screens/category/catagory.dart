@@ -44,24 +44,26 @@ class _ScreenCatagoryState extends State<ScreenCatagory>
             ),
             Expanded(
               child: TabBarView(
-                children: const [IncomePage(), ExpansePage()],
+                children:  [IncomePage(), ExpansePage()],
                 controller: _tabController,
                 physics: const ScrollPhysics(),
               ),
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (bottomNavigation.value == 0) {
-              print("add transaction");
-            } else {
-              print("add category");
-            }
-          },
-          child: const Center(
-            child: Icon(Icons.add),
-          ),
-        ));
+        //  floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     if (bottomNavigation.value == 0) {
+        //       print("add transaction");
+        //     } else {
+        //       print("add category");
+        //     }
+        //   },
+        //   child: const Center(
+        //     child: Icon(Icons.add),
+        //   ),
+        // )
+        );
   }
 }

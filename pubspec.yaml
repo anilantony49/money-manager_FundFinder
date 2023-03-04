@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_slidable: 1.2.0
+  # calender_picker: ^1.0.7
   hive_flutter: 1.1.0
   intl: ^0.17.0
 

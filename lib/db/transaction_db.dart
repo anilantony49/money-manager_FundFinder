@@ -8,6 +8,7 @@ abstract class TransactionDbfunctions {
   Future<List<transactionModels>> getTransaction();
   Future<void> insertTransaction(transactionModels value);
   Future<void> deletetransaction(String transactionId);
+  Future<void> edittransaction(transactionModels value, String transactionId);
 }
 
 class TransactionDb implements TransactionDbfunctions {
@@ -52,5 +53,14 @@ class TransactionDb implements TransactionDbfunctions {
         await Hive.openBox<transactionModels>(_TRANSACTION_DB_NAME);
     await _transactionDB.put(value.id, value);
     refresh();
+  }
+
+  @override
+  Future<void> edittransaction(
+      transactionModels value, String transactionId) async {
+    final _transactionDB =
+        await Hive.openBox<transactionModels>(_TRANSACTION_DB_NAME);
+    await _transactionDB.put(transactionId, value);
+     refresh();
   }
 }

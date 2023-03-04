@@ -20,6 +20,9 @@ class transactionModels{
   final CategoryType type;
   @HiveField(6)
   final CategoryModels model;
+
+
+  
   transactionModels({
   required this.id, 
   required  this.amount, 

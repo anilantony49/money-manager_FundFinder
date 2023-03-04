@@ -13,7 +13,7 @@ class CategoryModels{
  @HiveField(0)
  final String id;
   @HiveField(1)
- final  String name;
+  final  String name;
   @HiveField(2)
  final bool isDeleted;
   @HiveField(3)

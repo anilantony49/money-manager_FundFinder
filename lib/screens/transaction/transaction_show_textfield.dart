@@ -24,6 +24,7 @@ class TransactionTextField extends StatefulWidget {
 }
 
 class _TransactionTextFieldState extends State<TransactionTextField> {
+  final editTransactiontextcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     CategoryDb.singleton.refreshUI();
@@ -118,7 +119,7 @@ class _TransactionTextFieldState extends State<TransactionTextField> {
               });
             }),
         ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               addTransaction(context);
             },
             child: const Text('Add'))

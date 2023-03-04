@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/category/catagory.dart';
 import 'package:flutter_application_1/screens/category/category_show_popup.dart';
+import 'package:flutter_application_1/screens/transaction/transaction_show_textfield.dart';
 import 'package:flutter_application_1/screens/transaction/transcation.dart';
 
 import 'db/category_db.dart';
@@ -14,7 +15,7 @@ class ScreenHome extends StatelessWidget {
   ScreenHome({Key? key}) : super(key: key);
 
   final _pages = [
-     ScreenTransaction(),
+    ScreenTransaction(),
     const ScreenCatagory(),
   ];
 
@@ -58,14 +59,15 @@ class ScreenHome extends StatelessWidget {
             } else {
               ShowCategoryAddPopUp(context);
               print("add category");
-              final _value = CategoryModels(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: 'travel',
-                  type: CategoryType.expense);
-              CategoryDb().insertCategory(_value);
+              // final _value = CategoryModels(
+              //     id: DateTime.now().millisecondsSinceEpoch.toString(),
+              //     name: 'travel',
+              //     type: CategoryType.expense);
+              // CategoryDb().insertCategory(_value);
 
               //  print(_value);
             }
+            ;
           },
           child: const Center(
             child: Icon(Icons.add),
