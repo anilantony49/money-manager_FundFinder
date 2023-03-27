@@ -7,9 +7,13 @@ ValueNotifier<CategoryType> SelectedCategoryType =
     ValueNotifier(CategoryType.income);
 Future<void> ShowCategoryAddPopUp(context) async {
   showDialog(
+    
       context: (context),
       builder: (ctx) {
         return SimpleDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))
+          ),
           title: const Text('Add Category'),
           children: [
             Padding(
@@ -29,7 +33,7 @@ Future<void> ShowCategoryAddPopUp(context) async {
                   ],
                 )),
             Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
                     onPressed: () {
                       final _name = textcontroller.text;

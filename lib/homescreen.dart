@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/category/catagory.dart';
 import 'package:flutter_application_1/screens/category/category_show_popup.dart';
-import 'package:flutter_application_1/screens/transaction/transaction_show_textfield.dart';
 import 'package:flutter_application_1/screens/transaction/transcation.dart';
-
-import 'db/category_db.dart';
-
-import 'models/category_models.dart';
 
 class ScreenHome extends StatelessWidget {
   ValueNotifier<int> bottomNavigation = ValueNotifier(0);
@@ -15,16 +10,16 @@ class ScreenHome extends StatelessWidget {
   ScreenHome({Key? key}) : super(key: key);
 
   final _pages = [
-    ScreenTransaction(),
+    const ScreenTransaction(),
     const ScreenCatagory(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
+         backgroundColor: Colors.grey[400],
         appBar: AppBar(
-          backgroundColor: Colors.blue,
+          // backgroundColor: Colors.blue,
           title: const Text('FundFinder'),
           centerTitle: true,
         ),
@@ -45,14 +40,12 @@ class ScreenHome extends StatelessWidget {
                   ]);
             }),
         body: SafeArea(
-            child: ValueListenableBuilder(
-                builder: (BuildContext context, int index, Widget? _) {
-                  return _pages[index];
-                },
-                valueListenable: bottomNavigation),
-                
-                ),
-                
+          child: ValueListenableBuilder(
+              builder: (BuildContext context, int index, Widget? _) {
+                return _pages[index];
+              },
+              valueListenable: bottomNavigation),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             if (bottomNavigation.value == 0) {
@@ -62,15 +55,7 @@ class ScreenHome extends StatelessWidget {
             } else {
               ShowCategoryAddPopUp(context);
               print("add category");
-              // final _value = CategoryModels(
-              //     id: DateTime.now().millisecondsSinceEpoch.toString(),
-              //     name: 'travel',
-              //     type: CategoryType.expense);
-              // CategoryDb().insertCategory(_value);
-
-              //  print(_value);
             }
-            ;
           },
           child: const Center(
             child: Icon(Icons.add),

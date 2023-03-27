@@ -27,6 +27,7 @@ class _ScreenCatagoryState extends State<ScreenCatagory>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: Colors.grey[400],
       body: Column(
         children: [
           TabBar(
@@ -39,7 +40,7 @@ class _ScreenCatagoryState extends State<ScreenCatagory>
               )
             ],
             controller: _tabController,
-            indicatorColor: Colors.blue,
+            indicatorColor: const Color.fromARGB(255, 3, 4, 5),
             labelColor: Colors.black,
           ),
         

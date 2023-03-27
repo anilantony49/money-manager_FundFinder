@@ -15,7 +15,6 @@ CategoryType? selectedCategoryType;
 CategoryModels? selectedCategoryModel;
 String? selectedValue;
 
-
 class ScreenTransaction extends StatefulWidget {
   const ScreenTransaction({Key? key}) : super(key: key);
 
@@ -31,88 +30,86 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
         valueListenable: TransactionDb.singleton.transactionListNotifier,
         builder: (BuildContext context, List<transactionModels> newValue,
             Widget? _) {
-          return  TransactionDb.singleton.transactionListNotifier.value.isNotEmpty?  Column(
-            children: [
-             
-              Expanded(
-                child: ListView.separated(
-                    padding: const EdgeInsets.all(10),
-                    itemBuilder: (context, index) {
-                      final _value = newValue[index];
-              
-                      return Slidable(
-                        key: Key(_value.id),
-                        direction: Axis.horizontal,
-                        startActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            // dismissible: DismissiblePane(onDismissed: () {
-              
-                            // }),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  showfoam(context, _value.purpose);
-                                },
-                                backgroundColor:
-                                    const Color.fromARGB(255, 18, 87, 237),
-                                foregroundColor: Colors.white,
-                                icon: Icons.edit,
-                                label: 'Edit',
-                              ),
-                              SlidableAction(
-                                onPressed: (context) {
-                                  TransactionDb.singleton
-                                      .deletetransaction(_value.id);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('An item has been deleted')));
-                                },
-                                backgroundColor: const Color(0xFFFE4A49),
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: 'Delete',
-                              ),
-                            ]),
-                        child: Card(
-                            elevation: 0,
-                            child: ListTile(
-                              title: Text(
-                                'Rs.${_value.amount}',
-                              ),
-                              subtitle: Text(_value.purpose),
-                              leading: CircleAvatar(
-                                child: Text(
-                                  parsedDate(_value.date),
-                                  textAlign: TextAlign.center,
-                                ),
-                                backgroundColor: _value.type == CategoryType.expense
-                                    ? Colors.red
-                                    : Colors.green,
-                                radius: 50,
-                              ),
-                            )),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                    itemCount: newValue.length
-                    
-                    ),
-              ),
-            ],
-          ):const Center(
-        child: Text(
-          "Tap the '+' icon to add new items",
-          style: TextStyle(fontSize: 20,color: Colors.grey),
-        ),
-      );
-              
+          return TransactionDb
+                  .singleton.transactionListNotifier.value.isNotEmpty
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                          padding: const EdgeInsets.all(10),
+                          itemBuilder: (context, index) {
+                            final _value = newValue[index];
 
-              
-        }
-        
-        );
+                            return Slidable(
+                              key: Key(_value.id),
+                              direction: Axis.horizontal,
+                              startActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        showfoam(context, _value.purpose);
+                                      },
+                                      backgroundColor:
+                                          Color.fromARGB(255, 118, 121, 126),
+                                      //  foregroundColor: Colors.white,
+                                      icon: Icons.edit,
+                                      label: 'Edit',
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        TransactionDb.singleton
+                                            .deletetransaction(_value.id);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    'An item has been deleted')));
+                                      },
+                                      backgroundColor:
+                                          Color.fromARGB(255, 198, 136, 136),
+                                      // foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                    ),
+                                  ]),
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  elevation: 5,
+                                  child: ListTile(
+                                    title: Text(
+                                      'Rs.${_value.amount}',
+                                    ),
+                                    subtitle: Text(_value.purpose),
+                                    leading: CircleAvatar(
+                                      child: Text(
+                                        parsedDate(_value.date),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      backgroundColor:
+                                          _value.type == CategoryType.expense
+                                              ? Colors.red
+                                              : Colors.green,
+                                      radius: 50,
+                                    ),
+                                  )),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                          itemCount: newValue.length),
+                    ),
+                  ],
+                )
+              : const Center(
+                  child: Text(
+                    "Tap the '+' icon to add new items",
+                    style: TextStyle(fontSize: 20, color: Colors.grey),
+                  ),
+                );
+        });
   }
 
   String parsedDate(DateTime date) {
@@ -139,7 +136,6 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
           padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -163,7 +159,6 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
               const SizedBox(
                 height: 20,
               ),
-             
               TextButton.icon(
                   onPressed: () async {
                     final selectedDatetemp = await showDatePicker(
@@ -173,14 +168,13 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
                           DateTime.now().subtract(const Duration(days: 30)),
                       lastDate: DateTime.now(),
                     );
-              
+
                     if (selectedDatetemp == null) {
                       return;
                     } else {
                       print(selectedDatetemp.toString());
                       setState(() {
                         selectedDate = selectedDatetemp;
-                        
                       });
                     }
                   },

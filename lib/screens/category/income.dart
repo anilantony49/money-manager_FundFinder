@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../db/category_db.dart';
 import '../../models/category_models.dart';
 
-
 class IncomePage extends StatelessWidget {
   IncomePage({Key? key}) : super(key: key);
 
@@ -15,53 +14,57 @@ class IncomePage extends StatelessWidget {
         valueListenable: CategoryDb().incomeCatogoryNotifier,
         builder:
             (BuildContext context, List<CategoryModels> newValue, Widget? _) {
-          return CategoryDb.singleton.incomeCatogoryNotifier.value.isNotEmpty? Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    final title = newValue[index];
-                    return Card(
-                      child: ListTile(
-                        title: Text(title.name),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                 showfoam(context, title.name);
-                                },
-                                icon: const Icon(Icons.edit)),
-                            IconButton(
-                              onPressed: () {
-                                CategoryDb().deleteCategory(title.id);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('An item has been deleted')));
-                              },
-                              icon: const Icon(Icons.delete),
+          return CategoryDb.singleton.incomeCatogoryNotifier.value.isNotEmpty
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          final title = newValue[index];
+                          return Card(
+                            child: ListTile(
+                              title: Text(title.name),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        showfoam(context, title.name);
+                                      },
+                                      icon: const Icon(Icons.edit)),
+                                  IconButton(
+                                    onPressed: () {
+                                      CategoryDb().deleteCategory(title.id);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'An item has been deleted')));
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox();
+                        },
+                        itemCount: newValue.length,
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox();
-                  },
-                  itemCount: newValue.length,
-                ),
-              ),
-            ],
-          ): const Center(
-        child: Text(
-          "Tap the '+' icon to add new items",
-          style: TextStyle(fontSize: 20,color: Colors.grey),
-        ),
-      );
+                    ),
+                  ],
+                )
+              : const Center(
+                  child: Text(
+                    "Tap the '+' icon to add new items",
+                    style: TextStyle(fontSize: 20, color: Colors.grey),
+                  ),
+                );
         });
   }
-     showfoam(BuildContext ctx, String? itemkey) async {
+
+  showfoam(BuildContext ctx, String? itemkey) async {
     if (itemkey != null) {
       final existingItem = CategoryDb()
           .incomeCatogoryNotifier
@@ -113,5 +116,4 @@ class IncomePage extends StatelessWidget {
       );
     }
   }
-  }
-
+}

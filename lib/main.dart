@@ -26,20 +26,42 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        
-        primarySwatch: Colors.blue,
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: Colors.blueGrey,
+              secondary: Colors.grey,
+              // surfaceVariant: Colors.amber
+              // surface: Colors.deepOrange
+              // onSecondary: Colors.cyan
+              // onPrimary: Colors.lime,
+              // brightness:  Brightness.dark
+              // background: Colors.lime
+              // secondaryContainer: Colors.amber
+            ),
       ),
+      // theme: ThemeData(
+      //     primarySwatch: Colors.blue,
+      //     colorScheme: ColorScheme(
+      //         brightness: Brightness.light,
+      //         primary: Colors.blue,
+      //         onPrimary: Colors.white,
+      //         secondary:  Colors.deepPurple,
+      //         onSecondary: Colors.white,
+      //         error:  Colors.red,
+      //         onError:  Colors.white,
+      //         background: Colors.grey,
+      //         onBackground:Colors.black,
+      //         surface: Colors.white,
+      //         onSurface: Colors.black,)),
       home: ScreenHome(),
       // initialRoute: 'first',
       routes: {
-        'first': (context) =>  const TransactionTextField(),
+        'first': (context) => const TransactionTextField(),
       },
     );
   }
