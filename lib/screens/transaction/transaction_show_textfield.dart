@@ -30,7 +30,7 @@ class _TransactionTextFieldState extends State<TransactionTextField> {
     CategoryDb.singleton.refreshUI();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MONEY MANAGER'),
+        title: const Text('FundFinder'),
         centerTitle: true,
       ),
       body: Column(children: [

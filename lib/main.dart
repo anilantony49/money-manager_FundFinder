@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/homescreen.dart';
 import 'package:flutter_application_1/models/category_models.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'models/transaction_models.dart';
 import 'screens/transaction/transaction_show_textfield.dart';
 
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
       home: ScreenHome(),
       // initialRoute: 'first',
       routes: {
-        'first': (context) =>  TransactionTextField(),
+        'first': (context) =>  const TransactionTextField(),
       },
     );
   }

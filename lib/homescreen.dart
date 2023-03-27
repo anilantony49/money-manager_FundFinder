@@ -25,7 +25,7 @@ class ScreenHome extends StatelessWidget {
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text('MONEY MANAGER'),
+          title: const Text('FundFinder'),
           centerTitle: true,
         ),
         bottomNavigationBar: ValueListenableBuilder(
@@ -49,7 +49,10 @@ class ScreenHome extends StatelessWidget {
                 builder: (BuildContext context, int index, Widget? _) {
                   return _pages[index];
                 },
-                valueListenable: bottomNavigation)),
+                valueListenable: bottomNavigation),
+                
+                ),
+                
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             if (bottomNavigation.value == 0) {

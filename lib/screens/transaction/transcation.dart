@@ -31,69 +31,88 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
         valueListenable: TransactionDb.singleton.transactionListNotifier,
         builder: (BuildContext context, List<transactionModels> newValue,
             Widget? _) {
-          return ListView.separated(
-              padding: const EdgeInsets.all(10),
-              itemBuilder: (context, index) {
-                final _value = newValue[index];
+          return  TransactionDb.singleton.transactionListNotifier.value.isNotEmpty?  Column(
+            children: [
+             
+              Expanded(
+                child: ListView.separated(
+                    padding: const EdgeInsets.all(10),
+                    itemBuilder: (context, index) {
+                      final _value = newValue[index];
+              
+                      return Slidable(
+                        key: Key(_value.id),
+                        direction: Axis.horizontal,
+                        startActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            // dismissible: DismissiblePane(onDismissed: () {
+              
+                            // }),
+                            children: [
+                              SlidableAction(
+                                onPressed: (context) {
+                                  showfoam(context, _value.purpose);
+                                },
+                                backgroundColor:
+                                    const Color.fromARGB(255, 18, 87, 237),
+                                foregroundColor: Colors.white,
+                                icon: Icons.edit,
+                                label: 'Edit',
+                              ),
+                              SlidableAction(
+                                onPressed: (context) {
+                                  TransactionDb.singleton
+                                      .deletetransaction(_value.id);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text('An item has been deleted')));
+                                },
+                                backgroundColor: const Color(0xFFFE4A49),
+                                foregroundColor: Colors.white,
+                                icon: Icons.delete,
+                                label: 'Delete',
+                              ),
+                            ]),
+                        child: Card(
+                            elevation: 0,
+                            child: ListTile(
+                              title: Text(
+                                'Rs.${_value.amount}',
+                              ),
+                              subtitle: Text(_value.purpose),
+                              leading: CircleAvatar(
+                                child: Text(
+                                  parsedDate(_value.date),
+                                  textAlign: TextAlign.center,
+                                ),
+                                backgroundColor: _value.type == CategoryType.expense
+                                    ? Colors.red
+                                    : Colors.green,
+                                radius: 50,
+                              ),
+                            )),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    },
+                    itemCount: newValue.length
+                    
+                    ),
+              ),
+            ],
+          ):const Center(
+        child: Text(
+          "Tap the '+' icon to add new items",
+          style: TextStyle(fontSize: 20,color: Colors.grey),
+        ),
+      );
+              
 
-                return Slidable(
-                  key: Key(_value.id),
-                  direction: Axis.horizontal,
-                  startActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      // dismissible: DismissiblePane(onDismissed: () {
-
-                      // }),
-                      children: [
-                        SlidableAction(
-                          onPressed: (context) {
-                            showfoam(context, _value.purpose);
-                          },
-                          backgroundColor:
-                              const Color.fromARGB(255, 18, 87, 237),
-                          foregroundColor: Colors.white,
-                          icon: Icons.edit,
-                          label: 'Edit',
-                        ),
-                        SlidableAction(
-                          onPressed: (context) {
-                            TransactionDb.singleton
-                                .deletetransaction(_value.id);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('An item has been deleted')));
-                          },
-                          backgroundColor: const Color(0xFFFE4A49),
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                        ),
-                      ]),
-                  child: Card(
-                      elevation: 0,
-                      child: ListTile(
-                        title: Text(
-                          'Rs.${_value.amount}',
-                        ),
-                        subtitle: Text(_value.purpose),
-                        leading: CircleAvatar(
-                          child: Text(
-                            parsedDate(_value.date),
-                            textAlign: TextAlign.center,
-                          ),
-                          backgroundColor: _value.type == CategoryType.expense
-                              ? Colors.red
-                              : Colors.green,
-                          radius: 50,
-                        ),
-                      )),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const Divider();
-              },
-              itemCount: newValue.length);
-        });
+              
+        }
+        
+        );
   }
 
   String parsedDate(DateTime date) {

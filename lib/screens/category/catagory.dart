@@ -27,43 +27,44 @@ class _ScreenCatagoryState extends State<ScreenCatagory>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: [
-            TabBar(
-              tabs: const [
-                Tab(
-                  text: 'INCOME',
-                ),
-                Tab(
-                  text: 'EXPANSE',
-                )
-              ],
-              controller: _tabController,
-              indicatorColor: Colors.blue,
-              labelColor: Colors.black,
-            ),
-            Expanded(
-              child: TabBarView(
-                children:  [IncomePage(), ExpansePage()],
-                controller: _tabController,
-                physics: const ScrollPhysics(),
+      body: Column(
+        children: [
+          TabBar(
+            tabs: const [
+              Tab(
+                text: 'INCOME',
               ),
+              Tab(
+                text: 'EXPANSE',
+              )
+            ],
+            controller: _tabController,
+            indicatorColor: Colors.blue,
+            labelColor: Colors.black,
+          ),
+        
+          Expanded(
+            child: TabBarView(
+              children: [IncomePage(), ExpansePage()],
+              controller: _tabController,
+              physics: const ScrollPhysics(),
             ),
-          ],
-        ),
-        //  floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     if (bottomNavigation.value == 0) {
-        //       print("add transaction");
-        //     } else {
-        //       print("add category");
-        //     }
-        //   },
-        //   child: const Center(
-        //     child: Icon(Icons.add),
-        //   ),
-        // )
-        );
+          ),
+        ],
+      ),
+      //  floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     if (bottomNavigation.value == 0) {
+      //       print("add transaction");
+      //     } else {
+      //       print("add category");
+      //     }
+      //   },
+      //   child: const Center(
+      //     child: Icon(Icons.add),
+      //   ),
+      // )
+    );
   }
 }
