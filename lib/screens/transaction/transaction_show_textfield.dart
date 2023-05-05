@@ -12,7 +12,7 @@ final amoundtextcontroller = TextEditingController();
 const routeName = 'first';
 
 DateTime? _selectedDate;
-CategoryType? _selectedCategoryType;
+CategoryType _selectedCategoryType = CategoryType.income;
 CategoryModels? _selectedCategorModel;
 String? _selectedValue;
 
@@ -56,7 +56,19 @@ class _TransactionTextFieldState extends State<TransactionTextField> {
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime.now().subtract(const Duration(days: 30)),
-                  lastDate: DateTime.now());
+                  lastDate: DateTime.now(),
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                        data: ThemeData(
+                            colorScheme: const ColorScheme.light(
+                              primary: Colors
+                                  .grey, // sets the color of the selected date
+                            ),
+                            dialogTheme: DialogTheme(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)))),
+                        child: child ?? const SizedBox.shrink());
+                  });
 
               if (_selectedDatetemp == null) {
                 return;
@@ -97,6 +109,9 @@ class _TransactionTextFieldState extends State<TransactionTextField> {
           ]),
         ),
         DropdownButton<String>(
+            dropdownColor: Colors.grey[400],
+            elevation: 8,
+            borderRadius: BorderRadius.circular(10),
             hint: const Text('Select Category'),
             value: _selectedValue,
             items: (_selectedCategoryType == CategoryType.income
@@ -155,7 +170,7 @@ class _TransactionTextFieldState extends State<TransactionTextField> {
       purpose: _purpose,
       isDeleted: false,
       date: _selectedDate!,
-      type: _selectedCategoryType!,
+      type: _selectedCategoryType,
       model: _selectedCategorModel!,
     );
     await TransactionDb.singleton.insertTransaction(_transaction);

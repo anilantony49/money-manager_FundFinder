@@ -3,17 +3,15 @@ import 'package:flutter_application_1/db/category_db.dart';
 import 'package:flutter_application_1/models/category_models.dart';
 
 final textcontroller = TextEditingController();
-ValueNotifier<CategoryType> SelectedCategoryType =
+ValueNotifier<CategoryType> selectedCategoryType =
     ValueNotifier(CategoryType.income);
-Future<void> ShowCategoryAddPopUp(context) async {
+Future<void> showCategoryAddPopUp(context) async {
   showDialog(
-    
       context: (context),
       builder: (ctx) {
         return SimpleDialog(
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0))
-          ),
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           title: const Text('Add Category'),
           children: [
             Padding(
@@ -40,7 +38,7 @@ Future<void> ShowCategoryAddPopUp(context) async {
                       if (_name.isEmpty) {
                         return;
                       }
-                      final _type = SelectedCategoryType.value;
+                      final _type = selectedCategoryType.value;
                       final category = CategoryModels(
                           id: DateTime.now().millisecondsSinceEpoch.toString(),
                           name: _name,
@@ -70,15 +68,15 @@ class RadioButton extends StatelessWidget {
     return Row(
       children: [
         ValueListenableBuilder(
-          valueListenable: SelectedCategoryType,
+          valueListenable: selectedCategoryType,
           builder:
               (BuildContext context, CategoryType newCatagorytype, Widget? _) {
             return Radio<CategoryType>(
               value: type,
               groupValue: newCatagorytype,
               onChanged: (value) {
-                SelectedCategoryType.value = value!;
-                SelectedCategoryType.notifyListeners();
+                selectedCategoryType.value = value!;
+                selectedCategoryType.notifyListeners();
               },
             );
           },

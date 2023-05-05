@@ -27,7 +27,7 @@ class _ScreenCatagoryState extends State<ScreenCatagory>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.grey[400],
+      backgroundColor: Colors.grey[400],
       body: Column(
         children: [
           TabBar(
@@ -43,7 +43,6 @@ class _ScreenCatagoryState extends State<ScreenCatagory>
             indicatorColor: const Color.fromARGB(255, 3, 4, 5),
             labelColor: Colors.black,
           ),
-        
           Expanded(
             child: TabBarView(
               children: [IncomePage(), ExpansePage()],
@@ -53,19 +52,6 @@ class _ScreenCatagoryState extends State<ScreenCatagory>
           ),
         ],
       ),
-      //  floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     if (bottomNavigation.value == 0) {
-      //       print("add transaction");
-      //     } else {
-      //       print("add category");
-      //     }
-      //   },
-      //   child: const Center(
-      //     child: Icon(Icons.add),
-      //   ),
-      // )
     );
   }
 }

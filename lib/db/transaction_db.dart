@@ -42,9 +42,7 @@ class TransactionDb implements TransactionDbfunctions {
     transactionListNotifier.value.clear();
     transactionListNotifier.value.addAll(_allTransactions);
 
-//  await Future.forEach(_allTransactions, (transactionModels category){
     transactionListNotifier.notifyListeners();
-//  });
   }
 
   @override

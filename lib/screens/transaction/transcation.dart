@@ -26,6 +26,7 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
   @override
   Widget build(BuildContext context) {
     TransactionDb.singleton.refresh();
+    CategoryDb.singleton.refreshUI();
     return ValueListenableBuilder(
         valueListenable: TransactionDb.singleton.transactionListNotifier,
         builder: (BuildContext context, List<transactionModels> newValue,
@@ -50,8 +51,8 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
                                       onPressed: (context) {
                                         showfoam(context, _value.purpose);
                                       },
-                                      backgroundColor:
-                                          Color.fromARGB(255, 118, 121, 126),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 118, 121, 126),
                                       //  foregroundColor: Colors.white,
                                       icon: Icons.edit,
                                       label: 'Edit',
@@ -65,8 +66,8 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
                                                 content: Text(
                                                     'An item has been deleted')));
                                       },
-                                      backgroundColor:
-                                          Color.fromARGB(255, 198, 136, 136),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 198, 136, 136),
                                       // foregroundColor: Colors.white,
                                       icon: Icons.delete,
                                       label: 'Delete',
@@ -117,61 +118,79 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
     return _date;
   }
 
-  showfoam(BuildContext ctx, String? itemkey) async {
-    if (itemkey != null) {
-      final existingItem = TransactionDb.singleton.transactionListNotifier.value
-          .firstWhere((element) => element.purpose == itemkey);
+  showfoam(BuildContext ctx, String itemkey) async {
+    final existingItem = TransactionDb.singleton.transactionListNotifier.value
+        .firstWhere((element) => element.purpose == itemkey);
 
-      editPurposetextcontroller.text = existingItem.purpose;
-      editAmoundtextcontroller.text = existingItem.amount.toString();
-      selectedDate = existingItem.date;
-      selectedCategoryType = existingItem.type;
-      selectedCategoryModel = existingItem.model;
+    editPurposetextcontroller.text = existingItem.purpose;
+    editAmoundtextcontroller.text = existingItem.amount.toString();
+    selectedDate = existingItem.date;
+    selectedCategoryType = existingItem.type;
+    selectedCategoryModel = existingItem.model;
 
-      showModalBottomSheet(
-        context: ctx,
-        elevation: 5,
-        isScrollControlled: true,
-        builder: (_) => Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: editPurposetextcontroller,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(hintText: 'Purpose'),
+    showModalBottomSheet(
+      backgroundColor: Colors.grey[400],
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      context: context,
+      elevation: 5,
+      isScrollControlled: true,
+      builder: (_) => StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: editPurposetextcontroller,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(hintText: 'Purpose'),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: editAmoundtextcontroller,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(hintText: 'Amount'),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextButton.icon(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: editAmoundtextcontroller,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(hintText: 'Amount'),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextButton.icon(
                   onPressed: () async {
                     final selectedDatetemp = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate:
-                          DateTime.now().subtract(const Duration(days: 30)),
-                      lastDate: DateTime.now(),
-                    );
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate:
+                            DateTime.now().subtract(const Duration(days: 30)),
+                        lastDate: DateTime.now(),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                              data: ThemeData(
+                                  colorScheme: const ColorScheme.light(
+                                    primary: Colors
+                                        .grey, // sets the color of the selected date
+                                  ),
+                                  dialogTheme: DialogTheme(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)))),
+                              child: child ?? const SizedBox.shrink());
+                        });
 
-                    if (selectedDatetemp == null) {
-                      return;
-                    } else {
+                    if (selectedDatetemp != null) {
                       print(selectedDatetemp.toString());
                       setState(() {
                         selectedDate = selectedDatetemp;
@@ -179,91 +198,98 @@ class _ScreenTransactionState extends State<ScreenTransaction> {
                     }
                   },
                   icon: const Icon(Icons.calendar_today),
-                  label: Text(DateFormat('dd-MM-yyyy').format(selectedDate!))),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Radio(
-                      value: CategoryType.income,
-                      groupValue: selectedCategoryType,
-                      onChanged: (newvalue) {
-                        setState(() {
-                          selectedCategoryType = CategoryType.income;
-                          selectedValue = null;
-                        });
-                      }),
-                  const Text('Income'),
-                  Radio(
-                      value: CategoryType.expense,
-                      groupValue: selectedCategoryType,
-                      onChanged: (newvalue) {
-                        setState(() {
-                          selectedCategoryType = CategoryType.expense;
-                          selectedValue = null;
-                        });
-                      }),
-                  const Text('Expanse')
-                ]),
-              ),
-              DropdownButton<String>(
-                  hint: const Text('Select Category'),
-                  value: selectedValue,
-                  items: (selectedCategoryType == CategoryType.income
-                          ? CategoryDb().incomeCatogoryNotifier
-                          : CategoryDb().expanseCatogoryNotifier)
-                      .value
-                      .map((e) {
-                    return DropdownMenuItem(
-                      value: e.id,
-                      child: Text(e.name),
-                      onTap: () {
-                        selectedCategoryModel = e;
+                  label: Text(DateFormat('dd-MM-yyyy').format(selectedDate!)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Radio(
+                            value: CategoryType.income,
+                            groupValue: selectedCategoryType,
+                            onChanged: (newvalue) {
+                              setState(() {
+                                selectedCategoryType = CategoryType.income;
+                                selectedValue = null;
+                              });
+                            }),
+                        const Text('Income'),
+                        Radio(
+                            value: CategoryType.expense,
+                            groupValue: selectedCategoryType,
+                            onChanged: (newvalue) {
+                              setState(() {
+                                selectedCategoryType = CategoryType.expense;
+                                selectedValue = null;
+                              });
+                            }),
+                        const Text('Expanse')
+                      ]),
+                ),
+                DropdownButton<String>(
+                    dropdownColor: Colors.grey[400],
+                    elevation: 8,
+                    borderRadius: BorderRadius.circular(10),
+                    hint: const Text('Select Category'),
+                    value: selectedValue,
+                    items: (selectedCategoryType == CategoryType.income
+                            ? CategoryDb().incomeCatogoryNotifier
+                            : CategoryDb().expanseCatogoryNotifier)
+                        .value
+                        .map((e) {
+                      return DropdownMenuItem(
+                        value: e.id,
+                        child: Text(e.name),
+                        onTap: () {
+                          selectedCategoryModel = e;
+                        },
+                      );
+                    }).toList(),
+                    onChanged: (selectedvalue) {
+                      setState(() {
+                        print(selectedvalue);
+                        selectedValue = selectedvalue;
+                      });
+                    }),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: ElevatedButton(
+                      onPressed: () {
+                        final updatedItem = transactionModels(
+                            id: existingItem.id,
+                            amount: double.parse(editAmoundtextcontroller.text),
+                            purpose: editPurposetextcontroller.text,
+                            isDeleted: false,
+                            date: DateTime.parse(selectedDate.toString()),
+                            type: selectedCategoryType!,
+                            model: selectedCategoryModel!);
+                        TransactionDb()
+                            .edittransaction(updatedItem, existingItem.id);
+                        Navigator.pop(context);
+
+                        TransactionDb()
+                            .transactionListNotifier
+                            .value
+                            .removeWhere((item) => item.id == existingItem.id);
+                        TransactionDb()
+                            .transactionListNotifier
+                            .value
+                            .add(updatedItem);
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('An item has been Updated')));
                       },
-                    );
-                  }).toList(),
-                  onChanged: (selectedvalue) {
-                    setState(() {
-                      print(selectedvalue);
-                      selectedValue = selectedvalue;
-                    });
-                  }),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: ElevatedButton(
-                    onPressed: () {
-                      final updatedItem = transactionModels(
-                          id: existingItem.id,
-                          amount: double.parse(editAmoundtextcontroller.text),
-                          purpose: editPurposetextcontroller.text,
-                          isDeleted: false,
-                          date: DateTime.parse(selectedDate.toString()),
-                          type: selectedCategoryType!,
-                          model: selectedCategoryModel!);
-                      TransactionDb()
-                          .edittransaction(updatedItem, existingItem.id);
-                      Navigator.pop(context);
-
-                      TransactionDb()
-                          .transactionListNotifier
-                          .value
-                          .removeWhere((item) => item.id == existingItem.id);
-                      TransactionDb()
-                          .transactionListNotifier
-                          .value
-                          .add(updatedItem);
-
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('An item has been Updated')));
-                    },
-                    child: const Text('Update')),
-              )
-            ],
+                      child: const Text('Update')),
+                )
+              ],
+            ),
           ),
-        ),
-      );
-    }
+        );
+      }),
+    );
   }
 }

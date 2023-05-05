@@ -17,9 +17,8 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         backgroundColor: Colors.grey[400],
+        backgroundColor: Colors.grey[400],
         appBar: AppBar(
-          // backgroundColor: Colors.blue,
           title: const Text('FundFinder'),
           centerTitle: true,
         ),
@@ -53,7 +52,7 @@ class ScreenHome extends StatelessWidget {
 
               print("add category");
             } else {
-              ShowCategoryAddPopUp(context);
+              showCategoryAddPopUp(context);
               print("add category");
             }
           },
