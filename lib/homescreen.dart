@@ -3,6 +3,7 @@ import 'package:flutter_application_1/screens/category/catagory.dart';
 import 'package:flutter_application_1/screens/category/category_show_popup.dart';
 import 'package:flutter_application_1/screens/transaction/transcation.dart';
 
+// ignore: must_be_immutable
 class ScreenHome extends StatelessWidget {
   ValueNotifier<int> bottomNavigation = ValueNotifier(0);
   final textcontroller = TextEditingController();
